@@ -12,7 +12,7 @@ const config: Config = {
       {
         mytheme: {
         
-"primary": "#00d8a8",
+"primary": "#ff9200",
         
 "secondary": "#0030ff",
         
