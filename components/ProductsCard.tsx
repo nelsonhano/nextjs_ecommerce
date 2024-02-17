@@ -14,14 +14,14 @@ export default function ProductsCard({ product }: ProductsCardProps) {
   return (
     <Link
       href={`/products/${product.id}`}
-      className="card transition hover:shadow-2xl shadow-lg"
+      className="card shadow-lg transition hover:shadow-2xl"
     >
-      <div className="h-66 card w-49 ">
+      <div className="h-66 w-49 card h-96 bg-black p-1 pt-3">
         <figure>
           <Image
             src={product.imageUrl}
             width={200}
-            height={10}
+            height={1}
             alt={product.name}
             className="object-cover"
           />
@@ -31,7 +31,7 @@ export default function ProductsCard({ product }: ProductsCardProps) {
             {product.name}!
             {isNew ? <div className="badge badge-secondary">NEW</div> : <></>}
           </h2>
-          <p>{product.description}</p>
+          {/* <p>{product.description}</p> */}
           <div className="card-actions justify-end">
             <div className="badge badge-outline">
               <PriceTage price={product.price} />

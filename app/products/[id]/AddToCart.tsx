@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
+"use client"
+
+import React, { startTransition, useState, useTransition } from 'react';
 
 interface AddToCartProps {
-  id: string;
+  productId: string | undefined;
+  incrementProductQuantity: (productId: string)=>Promise<void>
 }
+ 
 
-export default function AddToCart({ id }: AddToCartProps) {
-  const [isAdded, setIsAdded] = useState(false);
+export default function AddToCart({ productId, incrementProductQuantity }: AddToCartProps) {
+  const [ success, setSuccess ] = useState(false);
+  const [ isPending, startTransition ] = useTransition()
 
   const handleClick = () => {
-    // Perform the logic to add the item to the cart here
-    // For example, you can make an API call to add the item to the cart
-    // and update the state to reflect the change
-    setIsAdded(true);
+    setSuccess(false);
+    startTransition(async () => {
+      await incrementProductQuantity(productId!);
+      setSuccess(true)
+    })
   };
 
   return (
     <div className="flex items-center gap-2">
       <button className="btn btn-primary" onClick={handleClick}>
-        {isAdded ? 'Added to Cart' : 'Add To Cart'}
+        Add to Cart
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
@@ -32,6 +38,10 @@ export default function AddToCart({ id }: AddToCartProps) {
           />
         </svg>
       </button>
+      
+        {/* {isAdded ? 'Added to Cart' : 'Add To Cart'} */}
+        {isPending && <span className='loading loading-spinner loading-md' />}
+        {!isPending && success && (<span className='text-success'>Added To Cart</span>)}
     </div>
   );
 }

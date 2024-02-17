@@ -24,25 +24,24 @@ export default async function Home() {
               rounded-lg 
               shadow-xl
               "
-              priority
+            priority
           />
           <div>
             <h1 className="text-5xl font-bold">{products[0].name}!</h1>
-            <p className="py-6">
-              {products[0].description}
-            </p>
-            <Link 
+            <p className="py-6">{products[0].description}</p>
+            <Link
               href={`/products/${products[0].id}`}
-              className="btn btn-primary">Chexk It Out</Link>
+              className="btn btn-primary"
+            >
+              Chexk It Out
+            </Link>
           </div>
         </div>
       </div>
-      <div className="my-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
-        {
-          products.slice(1).map((product) => (
-            <ProductsCard product={product} key={product.id} />
-          ))
-        }
+      <div className="w-12/12 my-4 grid h-48 grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-6">
+        {products.slice(1).map((product) => (
+          <ProductsCard product={product} key={product.id} />
+        ))}
       </div>
     </main>
   );

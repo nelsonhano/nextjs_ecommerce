@@ -1,15 +1,17 @@
-import type { Metadata, ResolvingMetadata } from 'next'
- import Image from "next/image";
+import type { Metadata, ResolvingMetadata } from "next";
+import Image from "next/image";
 import prisma from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import PriceTage from "@/components/PriceTage";
 import { cache } from "react";
+import AddToCart from "./AddToCart";
+import { incrementProductQuantity } from "./actions";
 
 interface ProductPageprops {
   params: {
     id: string;
   };
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 const getProduct = cache(async (id: string) => {
@@ -37,7 +39,7 @@ export async function generateMetadata({
 export default async function ProductId({ params: { id } }: ProductPageprops) {
   const product = await getProduct(id);
   return (
-    <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
+    <div className="flex w-full flex-col gap-2 lg:flex-row lg:items-center">
       <Image
         width={700}
         height={100}
@@ -52,9 +54,13 @@ export default async function ProductId({ params: { id } }: ProductPageprops) {
       />
 
       <div>
-        <h1 className="text-5xl font-bold">{product?.name}</h1>
+        <h1 className="text-5xl font-bold"> {product?.name}</h1>
         <PriceTage price={product?.price || 0} className="mt-4" />
         <p className="py-6">{product?.description}</p>
+        <AddToCart
+          productId={product?.id}
+          incrementProductQuantity={incrementProductQuantity}
+        />
       </div>
     </div>
   );
